@@ -17,10 +17,10 @@ from ser import SER
 
 sns.set(style="white", font_scale=1.5)
 
-# Build a random adjacency matrix (in this case weighted and undirected)
+# Build a random adjacency matrix (weighted and directed)
 n_nodes = 50
-adj_mat = adj_mat=np.random.uniform(low=0, high=1, size=(n_nodes, n_nodes))
-adj_mat[np.random.random(adj_mat.shape) < .9] = 0  # make sparser: keep only 10% of links (at most)
+adj_mat = np.random.uniform(low=0, high=1, size=(n_nodes, n_nodes))
+adj_mat[np.random.random(adj_mat.shape) < .9] = 0  # make sparser
 
 # Instantiate SER model once, use as many times as we want (even on different graphs)
 ser_model = SER(n_steps=500,
@@ -30,7 +30,7 @@ ser_model = SER(n_steps=500,
                 prob_recovery=.2,
                 prob_spont_act=.001)
 
-# Run activity. The output is a matrix (node vs time).
+# Run activity. The output is a matrix (node vs time)
 activity = ser_model.run(adj_mat=adj_mat)
 
 #Plot the activity matrix and the global activity level
