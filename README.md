@@ -22,8 +22,13 @@ n_nodes = 50
 adj_mat = adj_mat=np.random.uniform(low=0, high=1, size=(n_nodes, n_nodes))
 adj_mat[np.random.random(adj_mat.shape) < .9] = 0  # make sparser: keep only 10% of links (at most)
 
-# Instantiate SER model once, use as many times as we want 
-ser_model = SER(n_steps=500, prop_e=.1, prop_s=.4, threshold=.4, prob_recovery=.2, prob_spont_act=.001)
+# Instantiate SER model once, use as many times as we want (even on different graphs)
+ser_model = SER(n_steps=500,
+                prop_e=.1,
+                prop_s=.4,
+                threshold=.4,
+                prob_recovery=.2,
+                prob_spont_act=.001)
 
 # Run activity. The output is a matrix (node vs time).
 activity = ser_model.run(adj_mat=adj_mat)
