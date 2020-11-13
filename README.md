@@ -66,6 +66,10 @@ Dynamics is implemented on numba, so it is fast - quick benchmarks show between 
 - Don't use adj_mat with type other than np.float32, np.float64.
 - Pro-tip: use np.float32 for adj_mat – it will run faster.
 
+## Limitations
+- The graph is represented as a numpy array, which is less memory efficient than a list or a dictionary representation.
+That limits the size of the network you can use (of course, depending on your RAM).
+
 ## References
   - J. M. Greenberg and S. P. Hastings, SIAM J. Appl. Math. 34, 515 (1978).
   - A. Haimovici et al. Phys. Rev. Lett. 110, 178101 (2013).
@@ -73,5 +77,7 @@ Dynamics is implemented on numba, so it is fast - quick benchmarks show between 
 
 ### TODO
   - Tests
+  - Examples
   - Implement multi runs
   - Optional turn off numba
+  - networkx and igraph conversions
