@@ -102,12 +102,16 @@ class SER:
         '''
         Parameters
         ----------
-        adj_mat : adjacency matrix (binary) - 2-D numpy array.
-        states: initial conditions vector - 1-D numpy array.
+        adj_mat: 2-D numpy array
+            Adjacency matrix
+        states: 1-D numpy array of shape (n_nodes, ), optional
+            Initial state to begin run.
+            If None, random states are generated using the parameters prop_s, prop_e.
+            If given, the parameters prop_s, prop_e are ignored.
 
         Returns
         -------
-        act_mat: 2D np.ndarray
+        act_mat: 2D np.ndarray of shape (n_nodes, n_steps)
             Activity matrix (node vs time)
         '''
         # Generate random initial state if no initial state is specified
