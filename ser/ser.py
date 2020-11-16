@@ -70,6 +70,10 @@ class SER:
         Returns
         -------
         states: 1-D array of length n_nodes
+        Activity is encoded as follows:
+            S(usceptible): 0
+            E(xcited): 1
+            R(efractory): -1
         '''
         if prop_e is None or prop_s is None:
             raise ValueError("prop_e and prop_s must be defined.")
@@ -112,7 +116,11 @@ class SER:
         Returns
         -------
         act_mat: 2D np.ndarray of shape (n_nodes, n_steps)
-            Activity matrix (node vs time)
+            Activity matrix (node vs time).
+            Activity is encoded as follows:
+                S(usceptible): 0
+                E(xcited): 1
+                R(efractory): -1
         '''
         # Generate random initial state if no initial state is specified
         if states is None:
@@ -154,10 +162,10 @@ def _run(*,
     for t in range(n_steps-1):
         # E -> R
         act_mat[act_mat[:, t] == 1, t+1] = -1
-        # R --p--> S
+        # R --prob_recovery--> S
         refrac = act_mat[:, t] == -1
         act_mat[refrac, t+1] = act_mat[refrac, t] + recovered[refrac, t]
-        # S -k,f-> E
+        # S -threshold, prob_spont_act-> E
         susce = act_mat[:, t] == 0
         # Sum of weights over active incoming neighbors
         weighted_input = adj_mat.T @ (act_mat[:, t] == 1).astype(_dtype)

@@ -18,9 +18,10 @@ test_packages = [
 
 setup(
     name='ser',
-    version='0.0.1',
+    version='0.0.2',
     description=DESCRIPTION,
-    # long_description=LONG_DESCRIPTION,
+    long_description=LONG_DESCRIPTION,
+    long_description_content_type="text/markdown",
     author='Fabrizio Damicelli',
     author_email='f.damicelli@uke.de',
     url="https://github.com/fabridamicelli/ser",
