@@ -7,7 +7,8 @@ with open('README.md') as f:
 
 base_packages = [
     "numpy>=1.16.0",
-    "numba==0.49.1",
+    "numba==0.51.2",
+    "scipy>=1.5.4",
 ]
 
 test_packages = [
@@ -18,7 +19,7 @@ test_packages = [
 
 setup(
     name='ser',
-    version='0.0.3',
+    version='0.0.5',
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",

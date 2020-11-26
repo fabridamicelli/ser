@@ -58,7 +58,7 @@ fig.tight_layout()
 
 ## Requirements
  - numpy
- - numba==0.49.1 (other versions might work, but this is the one I tested so far).
+ - numba==0.49.1 or 0.51.2 (other versions might work, but these are the one I tested so far).
 
 Tested in Ubuntu 18.05 with Python 3.8.5.
 
