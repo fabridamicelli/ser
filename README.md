@@ -64,7 +64,7 @@ Tested in Ubuntu 18.05 with Python 3.8.5.
 
 ## Implementation
 The graph (or network) is represented as an adjacency matrix (numpy array).
-Dynamics is implemented on numba, so it is fast - quick benchmarks show between 2-3 times faster simulations than pure vectorized numpy versions!
+Dynamics is implemented in numpy and accelerated with numba, so it is fast - quick benchmarks show between 2-3 times faster simulations than pure vectorized numpy versions!
 
 ## Numba tips and tricks
 - Don't use adj_mat with type other than np.float32, np.float64.
