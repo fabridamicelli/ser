@@ -2,6 +2,9 @@
 This minimal model of spreading excitations has a rich history in many disciplines, ranging from the propagation of forest-fires, the spread of epidemics, to neuronal dynamics.
 SER stands for susceptible, excited and refractory.
 
+![](images/basic-example-anim.gif)
+
+
 ## Installation
 ```bash
 pip install ser
@@ -16,6 +19,7 @@ import seaborn as sns
 from ser import SER
 
 sns.set(style="white", font_scale=1.5)
+
 
 # Build a random adjacency matrix (weighted and directed)
 n_nodes = 50
