@@ -57,10 +57,13 @@ fig.tight_layout()
 
 
 ## Requirements
- - numpy
- - numba==0.49.1 or 0.51.2 (other versions might work, but these are the one I tested so far).
+ - numpy>=1.20.3
+ - numba==0.54.1
+ - scipy>=1.7.0
 
-Tested in Ubuntu 18.05 with Python 3.8.5.
+Other versions might work, but these are the latest one I tested.
+
+Tested in Ubuntu 20.04.3 LTS with Python 3.9.
 
 ## Implementation
 The graph (or network) is represented as an adjacency matrix (numpy array).
