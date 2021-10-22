@@ -6,9 +6,9 @@ with open('README.md') as f:
     LONG_DESCRIPTION = f.read()
 
 base_packages = [
-    "numpy>=1.16.0",
-    "numba==0.51.2",
-    "scipy>=1.5.4",
+    "numpy>=1.20.3",
+    "numba==0.54.1",
+    "scipy>=1.7.0",
 ]
 
 test_packages = [
