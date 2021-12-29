@@ -1,3 +1,5 @@
+[![Downloads](https://static.pepy.tech/personalized-badge/ser?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/ser)
+
 # SER model
 This minimal model of spreading excitations has a rich history in many disciplines, ranging from the propagation of forest-fires, the spread of epidemics, to neuronal dynamics.
 SER stands for susceptible, excited and refractory.
