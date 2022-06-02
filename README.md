@@ -79,6 +79,21 @@ Dynamics is implemented in numpy and accelerated with numba, so it is fast - qui
 - The graph is represented as a numpy array, which is less memory efficient than a list or a dictionary representation.
 That limits the size of the network you can use (of course, depending on your RAM).
 
+## Citing
+
+If you find this package useful for a publication, then please use the following BibTeX to cite it:
+
+```
+@misc{ser,
+  author = {Damicelli, Fabrizio},
+  title = {Susceptible-Excited-Refractory model in Python: A dynamical model of spreading excitations},
+  year = {2019},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/fabridamicelli/kuramoto}},
+}
+
+
 ## References
   - J. M. Greenberg and S. P. Hastings, SIAM J. Appl. Math. 34, 515 (1978).
   - A. Haimovici et al. Phys. Rev. Lett. 110, 178101 (2013).
