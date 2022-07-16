@@ -16,15 +16,19 @@ class SER:
         Number of steps of simulated activity each time function self.run() is called.
     prob_spont_act: float 0-1
         Probability of spontaneous activity (turning susceptible -> active).
+        Default is 0.
     prob_recovery: float 0-1
         Probability of recovery (transition refractory to susceptible).
+        Default is 1.
     threshold: float
-        If network is binara: number of active (incoming) neighbors necessary to
+        If network is binary: number of active (incoming) neighbors necessary to
         activate a node.
         If network is weighted: minimum weighted sum over inputs necessary to
         activate a node.
+        Default is 1.
     n_transient: int
         Number of initial time steps to remove.
+        Default is 0.
     prop_e: float 0-1
         Proportion of nodes in state E(xcited) at start of run.
     prop_s: float 0-1
@@ -43,6 +47,7 @@ class SER:
         n_transient: int = 0,
         prop_e: float,
         prop_s: float,
+        random_seed: Optional[int] = None,
     ) -> None:
         self.n_steps = n_steps
         self.prob_spont_act = prob_spont_act
@@ -52,8 +57,19 @@ class SER:
         self.prop_e = prop_e
         self.prop_s = prop_s
 
+        if not (random_seed is None or isinstance(random_seed, int)):
+            raise ValueError(f"random_seed must be None or int, got {type(random_seed)}")
+
+        self._random_state = np.random.RandomState(random_seed)
+
     @staticmethod
-    def init_states(*, n_nodes: int, prop_e: float, prop_s: float) -> np.ndarray:
+    def init_states(
+        *,
+        n_nodes: int,
+        prop_e: float,
+        prop_s: float,
+        random_state: Optional[np.random.RandomState] = None
+    ) -> np.ndarray:
         '''
         Create states vector to start simulation of the time window.
         Node states are respresented with integers (S = 0, E = 1, R = -1)
@@ -92,17 +108,21 @@ class SER:
         states[n_nodes_e: (n_nodes_e + n_nodes_s)] = 0  # susceptible
 
         # Randomize positions
-        np.random.shuffle(states)
+        if random_state:
+            random_state.shuffle(states)
+        else:
+            np.random.shuffle(states)
 
         if len(set(states)) != 3:
             warnings.warn('WARNING: not all the states are present')
 
         return states
 
-    def run(self, *,
-            adj_mat: np.ndarray,
-            states: Optional[np.ndarray] = None
-        ) -> np.ndarray:
+    def run(
+        self, *,
+        adj_mat: np.ndarray,
+        states: Optional[np.ndarray] = None
+    ) -> np.ndarray:
         '''
         Parameters
         ----------
@@ -125,39 +145,45 @@ class SER:
         # Generate random initial state if no initial state is specified
         if states is None:
             states = SER.init_states(
-                n_nodes=len(adj_mat), prop_e=self.prop_e, prop_s=self.prop_s
+                n_nodes=len(adj_mat),
+                prop_e=self.prop_e,
+                prop_s=self.prop_s,
+                random_state=self._random_state,
             )
         states = states.astype(adj_mat.dtype)  # cast for numba
+
+        # Evaluate all the stochastic transition probabilities in advance
+        act_mat_shape = (len(adj_mat), self.n_steps)
+        recovered = self._random_state.random(act_mat_shape) < self.prob_recovery
+        spont_activated = self._random_state.random(act_mat_shape) < self.prob_spont_act
+
         return _run(
             adj_mat=adj_mat,
             states=states,
             n_steps=self.n_steps,
-            prob_spont_act=self.prob_spont_act,
-            prob_recovery=self.prob_recovery,
             threshold=self.threshold,
             n_transient=self.n_transient,
+            recovered=recovered,
+            spont_activated=spont_activated,
         )
 
 
 @njit(fastmath=True)
-def _run(*,
+def _run(
+    *,
     adj_mat: np.ndarray,
     states: np.ndarray,
     n_steps: int,
-    prob_spont_act: float,
-    prob_recovery: float,
     threshold: float,
-    n_transient: int = 0,
+    n_transient: int,
+    recovered: np.ndarray,
+    spont_activated: np.ndarray,
 ):
     _dtype = adj_mat.dtype
     n_nodes = len(adj_mat)
     # Initialize activity matrix
     act_mat = np.zeros((n_nodes, n_steps), dtype=_dtype)
     act_mat[:, 0] = states
-
-    # Evaluate all the stochastic transition probabilities in advance
-    recovered = np.random.random(act_mat.shape) < prob_recovery
-    spont_activated = np.random.random(act_mat.shape) < prob_spont_act
 
     for t in range(n_steps-1):
         # E -> R
