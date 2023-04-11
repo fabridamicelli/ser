@@ -94,14 +94,15 @@ If you find this package useful for a publication, then please use the following
   journal = {GitHub repository},
   howpublished = {\url{https://github.com/fabridamicelli/kuramoto}},
 }
+```
 
-
-## References
+### References
   - J. M. Greenberg and S. P. Hastings, SIAM J. Appl. Math. 34, 515 (1978).
   - A. Haimovici et al. Phys. Rev. Lett. 110, 178101 (2013).
   - Messé et al. PLoS computational biology (2018)
 
 ### TODO
+  - random seed with numba
   - Tests
   - Examples
   - Implement multi runs

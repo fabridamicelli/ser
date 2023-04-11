@@ -28,7 +28,7 @@ setup(
     url="https://github.com/fabridamicelli/ser",
     packages=find_packages(exclude=['notebooks', 'docs']),
     classifiers=[
-        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: MIT License",
         "Intended Audience :: Science/Research",
         "Topic :: Scientific/Engineering",
