@@ -24,7 +24,7 @@ setup(
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     author='Fabrizio Damicelli',
-    author_email='f.damicelli@uke.de',
+    author_email='fabridamicelli@gmail.com',
     url="https://github.com/fabridamicelli/ser",
     packages=find_packages(exclude=['notebooks', 'docs']),
     classifiers=[
