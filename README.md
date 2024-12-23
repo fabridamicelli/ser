@@ -92,7 +92,7 @@ If you find this package useful for a publication, then please use the following
   year = {2019},
   publisher = {GitHub},
   journal = {GitHub repository},
-  howpublished = {\url{https://github.com/fabridamicelli/kuramoto}},
+  howpublished = {\url{https://github.com/fabridamicelli/ser}},
 }
 ```
 
