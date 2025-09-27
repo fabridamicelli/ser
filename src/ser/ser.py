@@ -137,7 +137,7 @@ class SER:
         )
 
 
-# @njit(fastmath=True)
+@njit(fastmath=True)
 def _run(
     *,
     adj_mat: np.ndarray,
