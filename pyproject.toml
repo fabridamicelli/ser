@@ -1,0 +1,66 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+  "setuptools>=77",
+]
+
+
+[tool.setuptools]
+include-package-data = true
+
+
+[project]
+name = "ser"
+version = "0.1.0"
+license = "MIT"
+license-files = [ "LICENSE" ]
+description = "SER (Susceptible-Excited-Refractory) Model"
+authors = [
+    { name = "Fabrizio Damicelli", email = "fabridamicelli@gmail.com" }
+]
+
+urls.Changelog = "https://github.com/fabridamicelli/ser/blob/main/CHANGELOG.md"
+urls.Repository = "https://github.com/fabridamicelli/ser" 
+
+readme = "README.md"
+keywords = [
+    "python",
+    "Susceptible-Excited-Refractory",
+    "dynamical-models",
+    "Scientific-modelling",
+]
+classifiers = [
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "Topic :: Scientific/Engineering",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=1.20.3",
+    "numba>=0.56.4",
+    "scipy>=1.7.0",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.9.0",
+    "ipdb>=0.13.13",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.9.4",
+    "mypy>=1.15.0",
+    "pytest>=8.3.5",
+    "seaborn>=0.13.2",
+]
+
+
+[tool.mypy]
+mypy_path = "src/"
+ignore_missing_imports = true
+no_strict_optional = true

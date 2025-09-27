@@ -1,15 +1,15 @@
 """
 SER class
 """
+
 from typing import Optional
-import warnings
 
 import numpy as np
 from numba import njit
 
 
 class SER:
-    '''
+    """
     Parameters
     ----------
     n_steps: int
@@ -33,9 +33,11 @@ class SER:
     Notes
     -----
     The proportion of nodes in state R(efractory) is prop_r = 1 - (prop_e + prop_s).
-    '''
+    """
+
     def __init__(
-        self, *,
+        self,
+        *,
         n_steps: int,
         prob_spont_act: float = 0,
         prob_recovery: float = 1,
@@ -54,7 +56,7 @@ class SER:
 
     @staticmethod
     def init_states(*, n_nodes: int, prop_e: float, prop_s: float) -> np.ndarray:
-        '''
+        """
         Create states vector to start simulation of the time window.
         Node states are respresented with integers (S = 0, E = 1, R = -1)
 
@@ -74,36 +76,32 @@ class SER:
             S(usceptible): 0
             E(xcited): 1
             R(efractory): -1
-        '''
+        """
         if prop_e is None or prop_s is None:
             raise ValueError("prop_e and prop_s must be defined.")
         if prop_e + prop_s > 1:
-            raise ValueError(f'prop_e + prop_s must be <= 1, given = {prop_e + prop_s}')
+            raise ValueError(f"prop_e + prop_s must be <= 1, given = {prop_e + prop_s}")
 
         # Initialize vector (-1 values mean Refractory)
-        states = np.zeros(n_nodes, dtype=np.int) - 1
+        states = np.zeros(n_nodes, dtype=np.int8) - 1
 
         # Absolute number of nodes in each state
         n_nodes_e = int(round(n_nodes * prop_e, 2))  # round: avoid float repr.error
         n_nodes_s = int(round(n_nodes * prop_s, 2))
 
         # Set states
-        states[: n_nodes_e] = 1                         # excited
-        states[n_nodes_e: (n_nodes_e + n_nodes_s)] = 0  # susceptible
+        states[:n_nodes_e] = 1  # excited
+        states[n_nodes_e : (n_nodes_e + n_nodes_s)] = 0  # susceptible
 
         # Randomize positions
         np.random.shuffle(states)
 
-        if len(set(states)) != 3:
-            warnings.warn('WARNING: not all the states are present')
-
         return states
 
-    def run(self, *,
-            adj_mat: np.ndarray,
-            states: Optional[np.ndarray] = None
-        ) -> np.ndarray:
-        '''
+    def run(
+        self, *, adj_mat: np.ndarray, states: Optional[np.ndarray] = None
+    ) -> np.ndarray:
+        """
         Parameters
         ----------
         adj_mat: 2-D numpy array
@@ -121,7 +119,7 @@ class SER:
                 S(usceptible): 0
                 E(xcited): 1
                 R(efractory): -1
-        '''
+        """
         # Generate random initial state if no initial state is specified
         if states is None:
             states = SER.init_states(
@@ -139,8 +137,9 @@ class SER:
         )
 
 
-@njit(fastmath=True)
-def _run(*,
+# @njit(fastmath=True)
+def _run(
+    *,
     adj_mat: np.ndarray,
     states: np.ndarray,
     n_steps: int,
@@ -159,16 +158,19 @@ def _run(*,
     recovered = np.random.random(act_mat.shape) < prob_recovery
     spont_activated = np.random.random(act_mat.shape) < prob_spont_act
 
-    for t in range(n_steps-1):
+    for t in range(n_steps - 1):
         # E -> R
-        act_mat[act_mat[:, t] == 1, t+1] = -1
+        act_mat[act_mat[:, t] == 1, t + 1] = -1
         # R --prob_recovery--> S
         refrac = act_mat[:, t] == -1
-        act_mat[refrac, t+1] = act_mat[refrac, t] + recovered[refrac, t]
+        act_mat[refrac, t + 1] = (
+            act_mat[refrac, t] + recovered[refrac, t]  # type:ignore
+        )
         # S -threshold, prob_spont_act-> E
         susce = act_mat[:, t] == 0
         # Sum of weights over active incoming neighbors
         weighted_input = adj_mat.T @ (act_mat[:, t] == 1).astype(_dtype)
-        act_mat[susce, t+1] += np.logical_or(weighted_input[susce] >= threshold,
-                                             spont_activated[susce, t])
+        act_mat[susce, t + 1] += np.logical_or(
+            weighted_input[susce] >= threshold, spont_activated[susce, t]  # type:ignore
+        )
     return act_mat[:, n_transient:]

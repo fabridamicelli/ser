@@ -22,8 +22,7 @@ import seaborn as sns
 
 from ser import SER
 
-sns.set(style="white", font_scale=1.5)
-
+sns.set_style("white")
 
 # Build a random adjacency matrix (weighted and directed)
 n_nodes = 50
@@ -60,15 +59,6 @@ fig.tight_layout()
 ![](images/basic-example.png)
 
 
-## Requirements
- - numpy>=1.20.3
- - numba==0.54.1
- - scipy>=1.7.0
-
-Other versions might work, but these are the latest one I tested.
-
-Tested in Ubuntu 20.04.3 LTS with Python 3.9.
-
 ## Implementation
 The graph (or network) is represented as an adjacency matrix (numpy array).
 Dynamics is implemented in numpy and accelerated with numba, so it is fast - quick benchmarks show between 2-3 times faster simulations than pure vectorized numpy versions!
@@ -101,10 +91,3 @@ If you find this package useful for a publication, then please use the following
   - A. Haimovici et al. Phys. Rev. Lett. 110, 178101 (2013).
   - Messé et al. PLoS computational biology (2018)
 
-### TODO
-  - random seed with numba
-  - Tests
-  - Examples
-  - Implement multi runs
-  - Optional turn off numba
-  - networkx and igraph conversions
