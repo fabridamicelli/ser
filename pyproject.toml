@@ -27,6 +27,7 @@ keywords = [
     "python",
     "Susceptible-Excited-Refractory",
     "dynamical-models",
+    "complex-systems",
     "Scientific-modelling",
 ]
 classifiers = [
