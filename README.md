@@ -1,4 +1,6 @@
 [![Downloads](https://static.pepy.tech/personalized-badge/ser?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/ser)
+[![CI](https://github.com/fabridamicelli/ser/actions/workflows/ci.yaml/badge.svg)](https://github.com/fabridamicelli/ser/actions/workflows/ci.yaml)
+[![image](https://img.shields.io/pypi/pyversions/ser.svg)](https://pypi.python.org/pypi/ser)
 
 Like the package? Don't forget to give it a GitHub ⭐ to help others find and trust it!
 
